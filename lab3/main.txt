@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ $# -ne 2 ]; then
+    echo "Использование: $0 <строка_для_поиска> <путь_к_директории>"
+    exit 1
+fi
+
+search_string="$1"
+directory="$2"
+
+if [ ! -d "$directory" ]; then
+    echo "Директория '$directory' не существует."
+    exit 1
+fi
+
+output_file="found_files.txt"
+> "$output_file" # Очищаем файл перед записью
+
+for file in "$directory"/*.txt; do
+    if grep -q "$search_string" "$file"; then
+        echo "$file" >> "$output_file"
+    fi
+done
